@@ -12,7 +12,7 @@
                 UPDATE
             </button> -->
             <Button title="UPDATE" color="#0000ff91" />
-            <Button title="DELETE" color="#c71921ba" />
+            <Button title="DELETE" color="#c71921ba"  @click="onDelete(task.id)" />
         </div>
     </section>
 </template>
@@ -27,6 +27,11 @@ export default {
     },
     components : {
         Button
+    },
+    methods : {
+        onDelete : function(id){
+            this.$emit('delete-task',id)
+        }
     }
 }
 </script>

@@ -1,5 +1,5 @@
 <template>
-    <button :style="{background : color}" @click="propFunc">
+    <button :style="{background : color}">
         {{title}}
     </button>
 </template>
@@ -10,13 +10,7 @@ export default {
     props : {
         title : String,
         color : String,
-        propFunc : Function
     },
-    methods : {
-        onClick() {
-            this.propFunc();
-        }
-    }
 }
 </script>
 <style scope>

@@ -1,7 +1,7 @@
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
-  <Header title="Task Tracker" />
-  <Tasks :tasks="tasks" />
+  <Header @add-task="addTask" title="Task Tracker" />
+  <Tasks :tasks="tasks" @delete-task="deleteTask" />
 </template>
 
 <script>
@@ -34,6 +34,18 @@ export default {
       text : 'feed pets',
       reminder : false,
     }]
+  },
+  methods : {
+    deleteTask(id) {
+      this.tasks = this.tasks.filter((task) => task.id !== id)
+    },
+    addTask(desc){
+      this.tasks.push({
+        id : this.tasks.length + 1,
+        text : desc,
+        reminder : false
+      })
+    }
   }
 }
 </script>

@@ -3,7 +3,7 @@
         <!-- <h3>
             {{task.id}} ... {{task.text}}
         </h3> -->
-        <Task :task="task" />
+        <Task @delete-task="$emit('delete-task',task.id)" :task="task" />
     </div>
 </template>
 <script>
@@ -17,7 +17,8 @@ export default {
     },
     components : {
         Task
-    }
+    },
+    emits : ['delete-task']
 }
 </script>
 <style>
