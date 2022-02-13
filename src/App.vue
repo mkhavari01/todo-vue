@@ -8,6 +8,7 @@
 
 import Header from './components/Header.vue'
 import Tasks from './components/Tasks.vue'
+import axios from 'axios'
 
 export default {
   name: 'App',
@@ -17,34 +18,33 @@ export default {
   },
   data(){
     return {
-      tasks : []
+      tasks : [],
     }
   },
-  created(){
-    this.tasks = [{
-      id : 1,
-      text : 'see doctor',
-      reminder : true,
-    },{
-      id : 2,
-      text : 'go to Gym',
-      reminder : true,
-    },{
-      id : 3,
-      text : 'feed pets',
-      reminder : false,
-    }]
+  async created(){
+    this.tasks = await this.fetchData()
   },
   methods : {
     deleteTask(id) {
-      this.tasks = this.tasks.filter((task) => task.id !== id)
+      axios.delete(process.env.VUE_APP_AXIOS_URL+`/${id}`).then((res)=>{
+        this.tasks = this.tasks.filter((task) => task.id !== id)
+      }).catch((err)=>{
+        console.log(err)
+      })
     },
     addTask(desc){
-      this.tasks.push({
+      axios.post(process.env.VUE_APP_AXIOS_URL,{
         id : this.tasks.length + 1,
         text : desc,
         reminder : false
+      }).then((res)=>{
+        console.log('res',res)
+        this.tasks = [...this.tasks,res.data]
       })
+    },
+    async fetchData(){
+      const res = await axios.get(process.env.VUE_APP_AXIOS_URL);
+      return res.data
     }
   }
 }
