@@ -5,23 +5,17 @@
             <span>{{task.text}}</span>
         </h3>
         <h3 class="h3" v-if="updateStatus"> 
-            <input type="text" style="margin-left : 10px" :value="task.text" />
+            <input type="text" style="margin-left : 10px"  v-model="newText" :placeholder="task.text"  >
         </h3>
         <div class="checkbox-holder" v-if="updateStatus">
             <label :for="`reminder${task.id}`">
                 reminder
             </label>
-            <input type="checkbox" name="reminder" :id="`reminder${task.id}`" v-bind:checked="task.reminder" >
+            <input type="checkbox" name="reminder" :id="`reminder${task.id}`" v-bind:checked="task.reminder" v-model="checked" >
         </div>
         <div class="btn-holder">
-            <!-- <button>
-                DELETE
-            </button>
-            <button>                                                                                                
-                UPDATE
-            </button> -->
-            <Button title="UPDATE" color="#0000ff91" @click="onUpdate(task.id)" v-if="!updateStatus" />
-            <Button title="CONFIRM" color="#097c3991" v-if="updateStatus"/>
+            <Button title="UPDATE" color="#0000ff91"  @click="onUpdate(task.id)" v-if="!updateStatus" />
+            <Button title="CONFIRM" color="#097c3991" @click="onConfirm(newText,checked)"  v-show="updateStatus" />
             <Button title="DELETE" color="#c71921ba"  @click="onDelete(task.id)" v-if="!updateStatus" />
             <Button title="DISCARD" color="#c88514ba" @click="onDiscard()"   v-if="updateStatus" />
         </div>
@@ -35,12 +29,14 @@ export default {
     name : "Task",
     data(){
         return {
-            updateStatus : false
+            updateStatus : false,
+            newText : this.task.text,
+            checked : this.task.reminder
         }
     },
     props : {
         task : Object,
-        index : Number
+        index : Number,
     },
     components : {
         Button
@@ -51,11 +47,18 @@ export default {
         },
         onUpdate : function(id){
             this.updateStatus = !this.updateStatus
-            this.$emit('update-task',id)
         },
         onDiscard : function(){
             this.updateStatus = !this.updateStatus
-        }
+        },
+        onConfirm : function(newText,checked){
+            this.updateStatus = !this.updateStatus
+            this.$emit('update-task',{
+                id : this.task.id,
+                text : newText,
+                reminder : checked
+            })
+        },
     }
 }
 </script>

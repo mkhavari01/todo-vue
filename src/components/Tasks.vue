@@ -3,7 +3,7 @@
         <!-- <h3>
             {{task.id}} ... {{task.text}}
         </h3> -->
-        <Task @delete-task="$emit('delete-task',task.id)" :task="task" :index="index" @update-task="$emit('update-task',task.id)" />
+        <Task @delete-task="$emit('delete-task',task.id)" :task="task" :index="index" @update-task="updateHandler" />
     </div>
 </template>
 <script>
@@ -13,12 +13,17 @@ import Task from './Task.vue'
 export default {
     name : "Tasks",
     props : {
-        tasks : Array
+        tasks : Array,
     },
     components : {
         Task
     },
-    emits : ['delete-task',"update-task"]
+    emits : ['delete-task',"update-task"],
+    methods : {
+        updateHandler : function(updatedTask){
+            this.$emit('update-task',updatedTask)
+        }
+    }
 }
 </script>
 <style>

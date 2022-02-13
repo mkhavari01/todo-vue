@@ -48,8 +48,14 @@ export default {
       const res = await axios.get(process.env.VUE_APP_AXIOS_URL);
       return res.data
     },
-    updateTask(id){
-      console.log('u clicked on',id)
+    updateTask(updatedTask){
+      axios.patch(process.env.VUE_APP_AXIOS_URL+`/${updatedTask.id}`,updatedTask).then((result)=>{
+        const objIndex = this.tasks.findIndex((obj => obj.id == updatedTask.id));
+        this.tasks[objIndex].text = updatedTask.text;
+        this.tasks[objIndex].reminder = updatedTask.reminder;
+      }).catch((err)=>{
+        console.error(err)
+      })
     }
   }
 }
