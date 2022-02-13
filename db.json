@@ -1,0 +1,15 @@
+{
+    "tasks" : [{
+        "id" : 1,
+        "text" : "see doctor",
+        "reminder" : true
+      },{
+        "id" : 2,
+        "text" : "go to Gym",
+        "reminder" : true
+      },{
+        "id" : 3,
+        "text" : "feed pets",
+        "reminder" : false
+      }]
+}
