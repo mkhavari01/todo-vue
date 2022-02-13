@@ -1,7 +1,7 @@
 <template>
   <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
   <Header @add-task="addTask" title="Task Tracker" />
-  <Tasks :tasks="tasks" @delete-task="deleteTask" />
+  <Tasks :tasks="tasks" @delete-task="deleteTask" @update-task="updateTask" />
 </template>
 
 <script>
@@ -29,22 +29,27 @@ export default {
       axios.delete(process.env.VUE_APP_AXIOS_URL+`/${id}`).then((res)=>{
         this.tasks = this.tasks.filter((task) => task.id !== id)
       }).catch((err)=>{
-        console.log(err)
+        console.error(err)
       })
     },
     addTask(desc){
       axios.post(process.env.VUE_APP_AXIOS_URL,{
-        id : this.tasks.length + 1,
+        id : new Date().getTime(),
         text : desc,
         reminder : false
       }).then((res)=>{
         console.log('res',res)
         this.tasks = [...this.tasks,res.data]
+      }).catch((error)=>{
+        console.error(error)
       })
     },
     async fetchData(){
       const res = await axios.get(process.env.VUE_APP_AXIOS_URL);
       return res.data
+    },
+    updateTask(id){
+      console.log('u clicked on',id)
     }
   }
 }
