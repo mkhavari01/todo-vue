@@ -2,11 +2,14 @@
   <!-- <img alt="Vue logo" src="./assets/logo.png"> -->
   <Header @add-task="addTask" title="Task Tracker" />
   <Tasks :tasks="tasks" @delete-task="deleteTask" @update-task="updateTask" />
+  <Footer />
+  <router-view></router-view>
 </template>
 
 <script>
 import Header from "./components/Header.vue";
 import Tasks from "./components/Tasks.vue";
+import Footer from "./components/Footer.vue";
 import axios from "axios";
 
 export default {
@@ -14,6 +17,7 @@ export default {
   components: {
     Header,
     Tasks,
+    Footer
   },
   data() {
     return {
